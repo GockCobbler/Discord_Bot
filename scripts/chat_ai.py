@@ -13,10 +13,10 @@ async def chat_bot(data, prompt):
     async with aiohttp.ClientSession() as session:
         async with session.post(url, headers=headers, json=json) as resp:
             response = await resp.json()
-            try:
-                message = response["choices"][0]["message"]["content"]
-                await data.message.send(f"User: {data.user}\nPrompt: {prompt}\nResponse:\n{message}")
-                print(f"#######################\nTime: {datetime.datetime.now().strftime('%I:%M:%S %p')}\nPrompt: {prompt}\nResponse: {message}\n#######################")
-            except:
-                await data.message.send("GPT is currently down, try again later.",ephemeral=True)
-                print(f"#######################\nTime: {datetime.datetime.now().strftime('%I:%M:%S %p')}\nUser: {data.user}\nPrompt: {prompt}\nResponse: Error\n#######################")
+    try:
+        message = response["choices"][0]["message"]["content"]
+        await data.message.send(f"Prompt: {prompt}\nResponse:\n{message}")
+        print(f"#######################\nUser: {data.user}\nTime: {datetime.datetime.now().strftime('%I:%M:%S %p')}\nPrompt: {prompt}\nResponse: {message}\n#######################")
+    except:
+        await data.message.send("GPT is currently down, try again later.",ephemeral=True)
+        print(f"#######################\nTime: {datetime.datetime.now().strftime('%I:%M:%S %p')}\nUser: {data.user}\nPrompt: {prompt}\nResponse: Error\n#######################")

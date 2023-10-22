@@ -12,15 +12,16 @@ def tally(data):
 	milestone(data)
 
 def milestone(data):
-	if data.count >= 1000:
-		rounded = round(data.count, -3)
+	count = data.tally_df["word_total"][f"{data.user}"]
+	if count >= 1000:
+		rounded = round(count, -3)
 	else:
-		rounded = data.count
+		rounded = count
 	if rounded in data.milestones:
 		has_milestone = data.tally_df[f"{rounded}"][f"{data.user}"]
 		if has_milestone == 0:
 			send_mile(data.milestones[rounded])
-			data.tally_df.at[f"{self.user}",f"{rounded}"] = 1
+			data.tally_df.at[f"{data.user}",f"{rounded}"] = 1
 			data.tally_df.to_csv("data/word_tally.csv",index=True)
 
 async def send_mile(mile):

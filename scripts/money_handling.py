@@ -18,10 +18,10 @@ async def get_one_dolla(data):
     data.money_df.at[f"{data.user}","balance"] = bal + 1
     data.money_df.to_csv(data.money_path,index=True)
     if bal + 1 <= 1:
-        await data.response.send(f"You have gained one dolla!\nYou now have {bal +1} dolla")
+        await data.response.send(f"User: {data.user} has gained one dolla!\nThey now have {bal +1} dolla")
         print(f"#######################\nTime: {datetime.datetime.now().strftime('%I:%M:%S %p')}\nUser {data.user} has gained one dolla\nNew bal: {bal + 1}\n#######################")
     else:
-        await data.response.send(f"You have gained one dolla!\nYou now have {bal +1} dollas")
+        await data.response.send(f"User: {data.user} has gained one dolla!\nThey now have {bal +1} dollas")
         print(f"#######################\nTime: {datetime.datetime.now().strftime('%I:%M:%S %p')}\nUser {data.user} has gained one dolla\nNew bal: {bal + 1}\n#######################")
 
 
@@ -48,8 +48,9 @@ async def mute_for_five(data, member):
 async def check_user_bal(data, member):
     try:
         bal = data.money_df["balance"][f"{member}"]
-        await data.response.send_message(f"{member} has {bal} dollas", ephemeral=True)
-        print(f"Response: {member} has {bal} dollas\n#######################")
     except:
         await data.response.send_message(f"{member} has no money.", ephemeral=True)
         print(f"Response: {member} has no money.\n#######################")
+        return
+    await data.response.send_message(f"{member} has {bal} dollas", ephemeral=True)
+    print(f"Response: {member} has {bal} dollas\n#######################")

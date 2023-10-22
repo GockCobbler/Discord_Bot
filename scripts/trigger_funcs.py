@@ -6,13 +6,12 @@ import asyncio
 import datetime
 
 async def check_list(data):
+	triggered_already = []
 	for b in data.words_said:
-		if b in data.trigger_list:
+		if b in data.trigger_list and b not in triggered_already:
+			triggered_already.append(b)
 			await trigger_said(data, b)
-			return
-
-				
-				
+			
 async def trigger_edit(data,action,word):
 	if action == "list":
 		await data.response.send_message(f"Current triggers: {data.trigger_list}", ephemeral=True)

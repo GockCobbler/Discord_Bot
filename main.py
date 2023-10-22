@@ -32,7 +32,7 @@ async def on_message(message):
 		await sync_tree()
 	if not message.author == client.user:
 		data = da.Splicer.from_message(message)
-		if r.randint(0,30) == r.randint(0,30):
+		if r.randint(0,16) == r.randint(0,16):
 			await money_handling.get_one_dolla(data)
 		await trigger_funcs.check_list(data)
 		word_tally.tally(data)
@@ -70,14 +70,6 @@ async def chat_bot_ai(interaction,one:str):
 	await data.response.send_message("generating response...", ephemeral=True)
 	await chat_ai.chat_bot(data,one)
 
-@tree.command(name="gamble", description="Gamble away your life savings... Or get rich")
-@app_commands.rename(amount="dollas",choice="prediction")
-@app_commands.describe(amount="# of dollas to gamble",choice="Number between 1 and 10")
-async def gambln_man(interaction,amount: int,choice: int):
-	data = da.Splicer.from_interaction(interaction)
-	print(f"#######################\nTime: {datetime.datetime.now().strftime('%I:%M:%S %p')}\nUser: {data.user}\nServer: {data.server}\nCommand: gambln_man\nAmount: {amount}\nGuess: {choice}\n#######################")
-	await gamble_away.gamble(data,amount,choice)
-
 @tree.command(name="elongate", description="looooooooooooooooooooooooooong")
 @app_commands.rename(one="message")
 @app_commands.describe(one="make this message looooooooooooooooong, or is it tall?")
@@ -85,6 +77,22 @@ async def longgggg(interaction,one: str):
 	data = da.Splicer.from_interaction(interaction)
 	print(f"#######################\nTime: {datetime.datetime.now().strftime('%I:%M:%S %p')}\nUser: {data.user}\nServer: {data.server}\nCommand: longgggg\nPrompt: {one}\n#######################")
 	await elongate.looooong(interaction,one)
+
+@tree.command(name="blackjack", description="Gamble away your life savings... Or get rich")
+@app_commands.rename(amount="dollas")
+@app_commands.describe(amount="# of dollas to gamble")
+async def black_jack(interaction,amount: int):
+	data = da.Splicer.from_interaction(interaction)
+	print(f"#######################\nTime: {datetime.datetime.now().strftime('%I:%M:%S %p')}\nUser: {data.user}\nServer: {data.server}\nCommand: black_jack\nAmount: {amount}\n#######################")
+	await gamble_away.blackjack(data,amount)
+
+@tree.command(name="slots", description="Gamble away your life savings... Or get rich")
+@app_commands.rename(amount="dollas")
+@app_commands.describe(amount="# of dollas to gamble")
+async def slotts(interaction,amount: int):
+	data = da.Splicer.from_interaction(interaction)
+	print(f"#######################\nTime: {datetime.datetime.now().strftime('%I:%M:%S %p')}\nUser: {data.user}\nServer: {data.server}\nCommand: slots\nAmount: {amount}\n#######################")
+	await slots.slot_rolls(data,amount)
 
 @tree.context_menu(name="mute this foo for 5 dollas")
 async def mute_for_money(interaction: discord.Interaction, target: discord.Member):
@@ -97,5 +105,21 @@ async def balance_check(interaction: discord.Interaction, target: discord.Member
 	data = da.Splicer.from_interaction(interaction)
 	print(f"#######################\nTime: {datetime.datetime.now().strftime('%I:%M:%S %p')}\nUser: {data.user}\nServer: {data.server}\nCommand: Balance interact\nTarget: {target}")
 	await money_handling.check_user_bal(data,target)
+
+#BUTTONS
+'''
+class GamblingMan(discord.ui.View):
+
+	def __init__(self):
+		super().__init__()
+
+	@discord.ui.button(label='Hit', style=discord.ButtonStyle.green)
+	async def hit(self, interaction: discord.Interaction, button: discord.ui.Button):
+		await interaction.response.send_message('Hit', ephemeral=True)
+
+	@discord.ui.button(label='Stand', style=discord.ButtonStyle.green)
+	async def stand(self, interaction: discord.Interaction, button: discord.ui.Button):
+		await interaction.response.send_message('Stand', ephemeral=True)
+'''
 
 client.run(config["DISCORD_BOT_TOKEN"])
