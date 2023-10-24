@@ -38,7 +38,7 @@ async def generate_image(data,shitty_prompt):
                 image_bytes = await resp.read()
         image = Image.open(io.BytesIO(image_bytes))
         image.save("data/Images/image.png")
-        await data.message.send(f"Prompt: {shitty_prompt}",file=discord.File(r'data/Images/image.png'))
+        await data.message.send(f"Prompt: {shitty_prompt}\n AI Editted prompt: {prompt}",file=discord.File(r'data/Images/image.png'))
         print(f"#######################\nTime: {datetime.datetime.now().strftime('%I:%M:%S %p')}\nResponse: Image sent successfully\n#######################")
     except:
         await data.message.send("AI booting up, please wait. This usually takes 5-15mins.", ephemeral=True)
